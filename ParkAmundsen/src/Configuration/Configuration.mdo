@@ -5,6 +5,7 @@
     <key>ru</key>
     <value>Управление парком аттракционов</value>
   </synonym>
+  <comment>git push -u origin main</comment>
   <containedObjects classId="9cd510cd-abfc-11d4-9434-004095e12fc7" objectId="6bf71524-e5d9-46d6-b902-e2c8cb4f10de"/>
   <containedObjects classId="9fcd25a0-4822-11d4-9414-008048da11f9" objectId="48e961ae-d6cd-4ed2-bc11-33ac1f1ffb16"/>
   <containedObjects classId="e3687481-0a87-462c-a166-9f34594f9bba" objectId="86e6f776-199e-48b8-9373-51ab38f4fa65"/>
