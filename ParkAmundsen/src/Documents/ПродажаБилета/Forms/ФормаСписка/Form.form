@@ -48,6 +48,57 @@
     <defaultItem>true</defaultItem>
     <titleLocation>None</titleLocation>
     <items xsi:type="form:FormField">
+      <name>ЕстьФайлы</name>
+      <id>34</id>
+      <visible>true</visible>
+      <enabled>true</enabled>
+      <userVisible>
+        <common>true</common>
+      </userVisible>
+      <dataPath xsi:type="form:DataPath">
+        <segments>Список.ЕстьФайлы</segments>
+      </dataPath>
+      <titleLocation>None</titleLocation>
+      <extendedTooltip>
+        <name>ЕстьФайлыРасширеннаяПодсказка</name>
+        <id>36</id>
+        <type>Label</type>
+        <autoMaxWidth>true</autoMaxWidth>
+        <autoMaxHeight>true</autoMaxHeight>
+        <extInfo xsi:type="form:LabelDecorationExtInfo">
+          <horizontalAlign>Left</horizontalAlign>
+        </extInfo>
+      </extendedTooltip>
+      <contextMenu>
+        <name>ЕстьФайлыКонтекстноеМеню</name>
+        <id>35</id>
+        <autoFill>true</autoFill>
+      </contextMenu>
+      <type>PictureField</type>
+      <editMode>Enter</editMode>
+      <showInHeader>true</showInHeader>
+      <headerPicture xsi:type="core:PictureRef">
+        <picture>CommonPicture.Скрепка</picture>
+      </headerPicture>
+      <headerHorizontalAlign>Left</headerHorizontalAlign>
+      <showInFooter>true</showInFooter>
+      <extInfo xsi:type="form:ImageFieldExtInfo">
+        <width>1</width>
+        <autoMaxWidth>true</autoMaxWidth>
+        <autoMaxHeight>true</autoMaxHeight>
+        <horizontalStretch>true</horizontalStretch>
+        <verticalStretch>true</verticalStretch>
+        <valuesPicture xsi:type="core:PictureRef">
+          <picture>CommonPicture.КоллекцияСкрепка</picture>
+        </valuesPicture>
+        <border xsi:type="core:BorderDef">
+          <style>Single</style>
+          <width>1</width>
+        </border>
+        <fileDragMode>AsFileRef</fileDragMode>
+      </extInfo>
+    </items>
+    <items xsi:type="form:FormField">
       <name>Номер</name>
       <id>16</id>
       <visible>true</visible>
@@ -280,6 +331,10 @@
       <id>5</id>
       <horizontalAlign>Left</horizontalAlign>
     </autoCommandBar>
+    <handlers>
+      <event>OnActivateRow</event>
+      <name>СписокПриАктивизацииСтроки</name>
+    </handlers>
     <searchStringAddition>
       <name>СписокСтрокаПоиска</name>
       <id>7</id>
@@ -409,6 +464,14 @@
     <horizontalAlign>Left</horizontalAlign>
     <autoFill>true</autoFill>
   </autoCommandBar>
+  <handlers>
+    <event>NotificationProcessing</event>
+    <name>ОбработкаОповещения</name>
+  </handlers>
+  <handlers>
+    <event>OnCreateAtServer</event>
+    <name>ПриСозданииНаСервере</name>
+  </handlers>
   <autoTitle>true</autoTitle>
   <autoUrl>true</autoUrl>
   <group>Vertical</group>
@@ -440,16 +503,31 @@
        ПродажаБилета.Номер, 
        ПродажаБилета.Дата, 
        ПродажаБилета.Проведен, 
+       ПродажаБилета.УдалитьНоменклатура, 
        ПродажаБилета.Клиент, 
+       ПродажаБилета.УдалитьЦена, 
        ПродажаБилета.БаллыКСписанию, 
        ПродажаБилета.СуммаДокумента, 
        ПродажаБилета.Комментарий, 
-       ПродажаБилета.Ответственный
-
+       ПродажаБилета.Ответственный, 
+       ПродажаБилета.ПозицииПродажи.*, 
+       ПродажаБилета.МоментВремени,
+        ВЫБОР
+        КОГДА НаличиеФайлов.ЕстьФайлы ЕСТЬ NULL ТОГДА
+            0
+        КОГДА НаличиеФайлов.ЕстьФайлы ТОГДА
+            1
+        ИНАЧЕ
+            0
+    КОНЕЦ КАК ЕстьФайлы
  ИЗ 
-       Документ.ПродажаБилета
+       Документ.ПродажаБилета 
+        
  КАК 
-       ПродажаБилета</queryText>
+       ПродажаБилета
+       
+       ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.НаличиеФайлов КАК НаличиеФайлов
+        ПО ПродажаБилета.Ссылка = НаличиеФайлов.ОбъектСФайлами</queryText>
       <mainTable>Document.ПродажаБилета</mainTable>
       <dynamicDataRead>true</dynamicDataRead>
       <autoFillAvailableFields>true</autoFillAvailableFields>
@@ -535,6 +613,18 @@
       <fields xsi:type="schema:DataCompositionSchemaNestedDataSet">
         <dataPath>ПозицииПродажи</dataPath>
         <field>ПозицииПродажи</field>
+      </fields>
+      <fields xsi:type="schema:DataCompositionSchemaDataSetField">
+        <dataPath>ЕстьФайлы</dataPath>
+        <field>ЕстьФайлы</field>
+        <title>
+          <localValue>
+            <content>
+              <key>ru</key>
+              <value>Есть файлы</value>
+            </content>
+          </localValue>
+        </title>
       </fields>
     </extInfo>
   </attributes>
